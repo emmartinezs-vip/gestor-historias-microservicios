@@ -1,0 +1,19 @@
+{
+    "name": "gestor_historias/sprints_ms",
+    "description": "Microservicio de gestión de sprints",
+    "autoload": {
+        "psr-4": {
+            "GestorHistorias\\SprintsMs\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "emmartinezs-vip",
+            "email": "emmartinezs@uniboyaca.edu.co"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.8"
+    }
+}
