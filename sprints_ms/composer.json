@@ -3,7 +3,7 @@
     "description": "Microservicio de gestión de sprints",
     "autoload": {
         "psr-4": {
-            "GestorHistorias\\SprintsMs\\": "app/"
+            "App\\": "app/"
         }
     },
     "authors": [
