@@ -2,15 +2,17 @@
 
 namespace App\Sprints\Controllers;
 
+use App\Sprints\Presentation\Repositories\SprintRepository;
+
 class SprintController
 {
     public function index($request, $response)
     {
-        $data = [
-            "mensaje" => "Controlador de Sprints funcionando"
-        ];
+        $repository = new SprintRepository();
 
-        $response->getBody()->write(json_encode($data));
+        $sprints = $repository->getAllSprints();
+
+        $response->getBody()->write(json_encode($sprints));
 
         return $response->withHeader('Content-Type', 'application/json');
     }
