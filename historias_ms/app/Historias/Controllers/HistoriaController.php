@@ -2,15 +2,17 @@
 
 namespace App\Historias\Controllers;
 
+use App\Historias\Presentation\Repositories\HistoriaRepository;
+
 class HistoriaController
 {
     public function index($request, $response)
     {
-        $data = [
-            "mensaje" => "Microservicio de Historias funcionando"
-        ];
+        $repository = new HistoriaRepository();
 
-        $response->getBody()->write(json_encode($data));
+        $historias = $repository->getAllHistorias();
+
+        $response->getBody()->write(json_encode($historias));
 
         return $response->withHeader('Content-Type', 'application/json');
     }

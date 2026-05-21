@@ -7,16 +7,17 @@ use PDOException;
 
 class Database
 {
-    private string $host = 'localhost';
-    private string $database = 'gestor_historias_db';
-    private string $username = 'root';
-    private string $password = '';
+    private string $host = "localhost";
+    private string $db_name = "gestor_historias_db";
+    private string $username = "root";
+    private string $password = "";
 
     public function connect(): PDO
     {
         try {
+
             $connection = new PDO(
-                "mysql:host={$this->host};dbname={$this->database}",
+                "mysql:host={$this->host};dbname={$this->db_name};charset=utf8",
                 $this->username,
                 $this->password
             );
