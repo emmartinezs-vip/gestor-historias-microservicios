@@ -26,4 +26,17 @@ class SprintRepository
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getSprintById(int $id): array|bool
+    {
+        $sql = "SELECT * FROM sprints WHERE id = :id";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }

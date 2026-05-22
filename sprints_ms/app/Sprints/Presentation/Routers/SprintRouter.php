@@ -8,5 +8,6 @@ return function (App $app) {
     $controller = new SprintController();
 
     $app->get('/sprints', [$controller, 'index']);
+    $app->get('/sprints/{id}', [$controller, 'show']);
 
 };

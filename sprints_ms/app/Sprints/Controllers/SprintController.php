@@ -16,4 +16,17 @@ class SprintController
 
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function show($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+
+        $repository = new SprintRepository();
+
+        $sprint = $repository->getSprintById($id);
+
+        $response->getBody()->write(json_encode($sprint));
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }
