@@ -10,5 +10,7 @@ return function (App $app) {
     $app->get('/sprints', [$controller, 'index']);
     $app->get('/sprints/{id}', [$controller, 'show']);
     $app->post('/sprints', [$controller, 'store']);
+    $app->put('/sprints/{id}', [$controller, 'update']);
+    $app->delete('/sprints/{id}', [$controller, 'destroy']);
 
 };

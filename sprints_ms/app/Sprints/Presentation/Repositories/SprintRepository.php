@@ -60,4 +60,34 @@ class SprintRepository
 
         return $statement->execute();
     }
+
+    public function updateSprint(int $id, array $data): bool
+    {
+        $sql = "UPDATE sprints
+            SET
+                nombre = :nombre,
+                fecha_inicio = :fecha_inicio,
+                fecha_fin = :fecha_fin
+            WHERE id = :id";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam(':nombre', $data['nombre']);
+        $statement->bindParam(':fecha_inicio', $data['fecha_inicio']);
+        $statement->bindParam(':fecha_fin', $data['fecha_fin']);
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+        return $statement->execute();
+    }
+
+    public function deleteSprint(int $id): bool
+{
+        $sql = "DELETE FROM sprints WHERE id = :id";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+
+        return $statement->execute();
+}
 }
