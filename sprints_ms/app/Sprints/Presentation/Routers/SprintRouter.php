@@ -9,5 +9,6 @@ return function (App $app) {
 
     $app->get('/sprints', [$controller, 'index']);
     $app->get('/sprints/{id}', [$controller, 'show']);
+    $app->post('/sprints', [$controller, 'store']);
 
 };

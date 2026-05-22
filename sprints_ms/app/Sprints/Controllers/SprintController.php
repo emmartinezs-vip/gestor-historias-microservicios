@@ -42,4 +42,36 @@ class SprintController
 
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function store($request, $response)
+    {
+        $data = json_decode($request->getBody()->getContents(), true);
+
+        $repository = new SprintRepository();
+
+        $created = $repository->createSprint($data);
+
+        if (!$created) {
+
+        $error = [
+            "error" => "No se pudo crear el sprint"
+        ];
+
+        $response->getBody()->write(json_encode($error));
+
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(500);
+    }
+
+        $message = [
+        "mensaje" => "Sprint creado correctamente"
+    ];
+
+        $response->getBody()->write(json_encode($message));
+
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(201);
+    }
 }

@@ -39,4 +39,25 @@ class SprintRepository
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function createSprint(array $data): bool
+    {
+        $sql = "INSERT INTO sprints (
+                nombre,
+                fecha_inicio,
+                fecha_fin
+            ) VALUES (
+                :nombre,
+                :fecha_inicio,
+                :fecha_fin
+            )";
+
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam(':nombre', $data['nombre']);
+        $statement->bindParam(':fecha_inicio', $data['fecha_inicio']);
+        $statement->bindParam(':fecha_fin', $data['fecha_fin']);
+
+        return $statement->execute();
+    }
 }
