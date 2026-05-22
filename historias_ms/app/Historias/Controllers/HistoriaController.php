@@ -16,4 +16,30 @@ class HistoriaController
 
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function show($request, $response, $args)
+    {
+        $id = (int) $args['id'];
+
+        $repository = new HistoriaRepository();
+
+        $historia = $repository->getHistoriaById($id);
+
+        if (!$historia) {
+
+            $error = [
+                "error" => "Historia no encontrada"
+            ];
+
+            $response->getBody()->write(json_encode($error));
+
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(404);
+        }
+
+        $response->getBody()->write(json_encode($historia));
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }
