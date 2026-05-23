@@ -47,7 +47,46 @@ class SprintController
     {
         $data = json_decode($request->getBody()->getContents(), true);
 
-        $repository = new SprintRepository();
+        if (empty($data['nombre'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El nombre del sprint es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if ($data['fecha_fin'] < $data['fecha_inicio']) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "La fecha final no puede ser menor a la fecha inicial"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+    if (
+        empty($data['nombre']) ||
+        empty($data['fecha_inicio']) ||
+        empty($data['fecha_fin'])
+        ){   
+
+    $error = [
+        "error" => "Todos los campos son obligatorios"
+    ];
+
+    $response->getBody()->write(json_encode($error));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+        }
+
+    $repository = new SprintRepository();
 
         $created = $repository->createSprint($data);
 
@@ -80,6 +119,28 @@ class SprintController
         $id = (int) $args['id'];
 
         $data = json_decode($request->getBody()->getContents(), true);
+
+        if (empty($data['nombre'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El nombre del sprint es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if ($data['fecha_fin'] < $data['fecha_inicio']) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "La fecha final no puede ser menor a la fecha inicial"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
 
         $repository = new SprintRepository();
 

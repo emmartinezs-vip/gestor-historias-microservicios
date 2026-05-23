@@ -47,6 +47,53 @@ class HistoriaController
     {
     $data = json_decode($request->getBody()->getContents(), true);
 
+    if (empty($data['titulo'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El titulo es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if (empty($data['responsable'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El responsable es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if ($data['puntos'] < 0) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "Los puntos no pueden ser negativos"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if (
+    !empty($data['fecha_finalizacion']) &&
+    $data['fecha_finalizacion'] < $data['fecha_creacion']
+) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "La fecha final no puede ser menor a la fecha de creacion"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
     $repository = new HistoriaRepository();
 
     $created = $repository->createHistoria($data);
@@ -80,6 +127,53 @@ class HistoriaController
     $id = (int) $args['id'];
 
     $data = json_decode($request->getBody()->getContents(), true);
+
+    if (empty($data['titulo'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El titulo es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if (empty($data['responsable'])) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "El responsable es obligatorio"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if ($data['puntos'] < 0) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "Los puntos no pueden ser negativos"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
+
+if (
+    !empty($data['fecha_finalizacion']) &&
+    $data['fecha_finalizacion'] < $data['fecha_creacion']
+) {
+
+    $response->getBody()->write(json_encode([
+        "error" => "La fecha final no puede ser menor a la fecha de creacion"
+    ]));
+
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(400);
+}
 
     $repository = new HistoriaRepository();
 
@@ -151,4 +245,33 @@ class HistoriaController
         ->withHeader('Content-Type', 'application/json')
         ->withStatus(200);
     }
+
+   public function reporteGeneral($request, $response)
+{
+    $repository = new HistoriaRepository();
+
+    $reporte = $repository->obtenerReporteGeneral();
+
+    $response->getBody()->write(
+        json_encode($reporte)
+    );
+
+    return $response
+        ->withHeader('Content-Type', 'application/json');
+}
+
+public function reporteResponsables($request, $response)
+{
+    $repository = new HistoriaRepository();
+
+    $reporte = $repository->obtenerReporteResponsables();
+
+    $response->getBody()->write(
+        json_encode($reporte)
+    );
+
+    return $response
+        ->withHeader('Content-Type', 'application/json');
+}
+
 }
