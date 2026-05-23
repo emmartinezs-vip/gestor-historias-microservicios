@@ -1,93 +1,63 @@
-const URL_REPORTE =
-    'http://localhost:8081/historias/reporte/general';
-
-const URL_RESPONSABLES =
-    'http://localhost:8081/historias/reporte/responsables';
+const URL_HISTORIAS = 'http://localhost:8001/historias';
 
 async function cargarReporte() {
-
     try {
+        const respuesta = await fetch(URL_HISTORIAS);
+        const historias = await respuesta.json();
 
-        // REPORTE GENERAL
-        const respuestaGeneral =
-            await fetch(URL_REPORTE);
-
-        const reporteGeneral =
-            await respuestaGeneral.json();
-
-        mostrarReporteGeneral(reporteGeneral);
-
-        // REPORTE RESPONSABLES
-        const respuestaResponsables =
-            await fetch(URL_RESPONSABLES);
-
-        const reporteResponsables =
-            await respuestaResponsables.json();
-
-        mostrarReporteResponsables(
-            reporteResponsables
-        );
+        mostrarReporteGeneral(historias);
+        mostrarReporteResponsables(historias);
 
     } catch (error) {
-
         console.error(error);
-
     }
-
 }
 
-function mostrarReporteGeneral(reporte) {
-
-    const tabla =
-        document.getElementById('tabla-reportes');
-
+function mostrarReporteGeneral(historias) {
+    const tabla = document.getElementById('tabla-reportes');
     tabla.innerHTML = '';
 
-    reporte.forEach(item => {
-
-        tabla.innerHTML += `
-
-            <tr>
-
-                <td>${item.estado}</td>
-
-                <td>${item.cantidad}</td>
-
-            </tr>
-
-        `;
-
+    // Agrupar por estado y contar
+    const conteo = {};
+    historias.forEach(h => {
+        conteo[h.estado] = (conteo[h.estado] || 0) + 1;
     });
 
+    Object.entries(conteo).forEach(([estado, cantidad]) => {
+        tabla.innerHTML += `
+            <tr>
+                <td>${estado}</td>
+                <td>${cantidad}</td>
+            </tr>
+        `;
+    });
 }
 
-function mostrarReporteResponsables(reporte) {
-
-    const tabla =
-        document.getElementById('tabla-responsables');
-
+function mostrarReporteResponsables(historias) {
+    const tabla = document.getElementById('tabla-responsables');
     tabla.innerHTML = '';
 
-    reporte.forEach(item => {
-
-        tabla.innerHTML += `
-
-            <tr>
-
-                <td>${item.responsable}</td>
-
-                <td>${item.nuevas}</td>
-
-                <td>${item.finalizadas}</td>
-
-                <td>${item.impedimentos}</td>
-
-            </tr>
-
-        `;
-
+    // Agrupar por responsable
+    const resumen = {};
+    historias.forEach(h => {
+        if (!resumen[h.responsable]) {
+            resumen[h.responsable] = { nuevas: 0, finalizadas: 0, impedimentos: 0 };
+        }
+        if (h.estado === 'nueva')        resumen[h.responsable].nuevas++;
+        if (h.estado === 'finalizada')   resumen[h.responsable].finalizadas++;
+        if (h.estado === 'impedimento')  resumen[h.responsable].impedimentos++;
     });
 
+    Object.entries(resumen).forEach(([responsable, datos]) => {
+        tabla.innerHTML += `
+            <tr>
+                <td>${responsable}</td>
+                <td>${datos.nuevas}</td>
+                <td>${datos.finalizadas}</td>
+                <td>${datos.impedimentos}</td>
+            </tr>
+        `;
+    });
 }
 
 cargarReporte();

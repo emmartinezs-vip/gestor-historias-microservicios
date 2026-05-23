@@ -1,6 +1,6 @@
-const URL_SPRINTS = 'http://localhost:8080/sprints';
+const URL_SPRINTS = 'http://localhost:8000/sprints';
 
-const URL_HISTORIAS = 'http://localhost:8081/historias';
+const URL_HISTORIAS = 'http://localhost:8001/historias';
 
 async function cargarTablero() {
 
@@ -26,7 +26,7 @@ async function cargarTablero() {
 
 function mostrarTablero(sprints, historias) {
 
-    const contenedor = document.getElementById('contenedor-sprints');
+    const contenedor = document.getElementById('tablero');
 
     contenedor.innerHTML = '';
 

@@ -6,16 +6,20 @@ use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+$app->add(function ($request, $handler) {
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    $response = $handler->handle($request);
 
-    http_response_code(200);
-    exit();
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', 'Content-Type')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
-}
+});
+
+$app->options('/{routes:.+}', function ($request, $response) {
+    return $response;
+});
 
 (require __DIR__ . '/../app/Sprints/Presentation/Routers/SprintRouter.php')($app);
 
