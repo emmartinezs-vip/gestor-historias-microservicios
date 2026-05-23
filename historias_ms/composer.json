@@ -1,0 +1,19 @@
+{
+    "name": "gestor_historias/historias_ms",
+    "description": "Microservicio de gestión de historias",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nicolas",
+            "email": "jnjimenez@uniboyaca.edu.co"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.8"
+    }
+}
