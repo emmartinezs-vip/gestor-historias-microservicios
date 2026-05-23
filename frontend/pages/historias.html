@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Historias</title>
+
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <h2>Gestor de Historias</h2>
+
+        <div class="nav-links">
+
+            <a href="index.html">Inicio</a>
+
+            <a href="historias.html">Historias</a>
+
+            <a href="sprints.html">Sprints</a>
+
+            <a href="tablero.html">Tablero</a>
+
+            <a href="reportes.html">Reportes</a>
+
+        </div>
+
+    </nav>
+
+    <main class="contenedor">
+
+        <h1>Gestión de Historias</h1>
+
+        <form id="form-historia">
+
+            <input
+                type="text"
+                id="titulo"
+                placeholder="Título"
+                required
+            >
+
+            <textarea
+                id="descripcion"
+                placeholder="Descripción"
+                required
+            ></textarea>
+
+            <input
+                type="text"
+                id="responsable"
+                placeholder="Responsable"
+                required
+            >
+
+            <select id="estado">
+
+                <option value="nueva">Nueva</option>
+
+                <option value="activa">Activa</option>
+
+                <option value="finalizada">Finalizada</option>
+
+                <option value="impedimento">Impedimento</option>
+
+            </select>
+
+            <input
+                type="number"
+                id="puntos"
+                placeholder="Puntos"
+                required
+            >
+
+            <input
+                type="date"
+                id="fecha_creacion"
+                required
+            >
+
+            <input
+                type="number"
+                id="sprint_id"
+                placeholder="ID Sprint"
+                required
+            >
+
+            <button type="submit">
+
+                Crear Historia
+
+            </button>
+
+        </form>
+
+        <h2>Listado de Historias</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                    <th>Puntos</th>
+                    <th>Sprint</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabla-historias">
+
+            </tbody>
+
+        </table>
+
+    </main>
+
+    <script src="../js/historias.js"></script>
+
+</body>
+
+</html>

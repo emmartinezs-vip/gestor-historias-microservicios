@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sprints</title>
+
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <h2>Gestor de Historias</h2>
+
+        <div class="nav-links">
+
+            <a href="index.html">Inicio</a>
+
+            <a href="historias.html">Historias</a>
+
+            <a href="sprints.html">Sprints</a>
+
+            <a href="tablero.html">Tablero</a>
+
+            <a href="reportes.html">Reportes</a>
+
+        </div>
+
+    </nav>
+
+    <main class="contenedor">
+
+        <h1>Gestión de Sprints</h1>
+
+        <form id="form-sprint">
+
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre del Sprint"
+                required
+            >
+
+            <label>
+                Fecha Inicio
+            </label>
+
+            <input
+                type="date"
+                id="fecha_inicio"
+                required
+            >
+
+            <label>
+                Fecha Fin
+            </label>
+
+            <input
+                type="date"
+                id="fecha_fin"
+                required
+            >
+
+            <button type="submit">
+
+                Crear Sprint
+
+            </button>
+
+        </form>
+
+        <h2>Listado de Sprints</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabla-sprints">
+
+            </tbody>
+
+        </table>
+
+    </main>
+
+    <script src="../js/sprints.js"></script>
+
+</body>
+
+</html>
