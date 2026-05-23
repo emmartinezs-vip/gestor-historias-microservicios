@@ -10,4 +10,10 @@ return function ($app) {
     $app->get('/historias', [$controller, 'index']);
 
     $app->get('/historias/{id}', [$controller, 'show']);
+
+    $app->post('/historias', [$controller, 'store']);
+
+    $app->put('/historias/{id}', [$controller, 'update']);
+
+    $app->delete('/historias/{id}', [$controller, 'destroy']);
 };
