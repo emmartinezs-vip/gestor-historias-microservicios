@@ -17,7 +17,7 @@
 
     <nav class="navbar">
 
-        <h2>Gestor de Historias</h2>
+    <h2>Gestor de Historias</h2>
 
         <div class="nav-links">
 
@@ -86,17 +86,24 @@
                 required
             >
 
+            <label>Fecha Finalización (opcional)</label>
             <input
-                type="number"
-                id="sprint_id"
-                placeholder="ID Sprint"
-                required
+                type="date"
+                id="fecha_finalizacion"
             >
 
-            <button type="submit">
+            <select id="sprint_id" required>
+                <option value="">-- Selecciona un Sprint --</option>
+            </select>
 
+            <input type="hidden" id="historia_id_editar">
+
+            <button type="submit" id="btn-submit">
                 Crear Historia
+            </button>
 
+            <button type="button" id="btn-cancelar" onclick="cancelarEdicion()" style="display:none;">
+                Cancelar
             </button>
 
         </form>

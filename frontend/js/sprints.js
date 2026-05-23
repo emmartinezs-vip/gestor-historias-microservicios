@@ -1,11 +1,14 @@
 const URL =
-    'http://localhost:8080/sprints';
+    'http://localhost:8000/sprints';
 
 const formulario =
     document.getElementById('form-sprint');
 
 const tabla =
     document.getElementById('tabla-sprints');
+
+const btnSubmit = document.getElementById('btn-submit');
+const btnCancelar = document.getElementById('btn-cancelar');
 
 async function cargarSprints() {
 
@@ -35,10 +38,11 @@ async function cargarSprints() {
 
                     <td>
 
+                        <button onclick="prepararEdicion(${sprint.id}, '${sprint.nombre}', '${sprint.fecha_inicio}', '${sprint.fecha_fin}')">
+                            Editar
+                        </button>
                         <button onclick="eliminarSprint(${sprint.id})">
-
                             Eliminar
-
                         </button>
 
                     </td>
@@ -50,12 +54,36 @@ async function cargarSprints() {
         });
 
     } catch (error) {
-
         console.error(error);
-
+        alert('Error al cargar los sprints.');
     }
 
 }
+
+function prepararEdicion(id, nombre, fechaInicio, fechaFin) {
+
+    document.getElementById('sprint_id_editar').value = id;
+    document.getElementById('nombre').value = nombre;
+    document.getElementById('fecha_inicio').value = fechaInicio;
+    document.getElementById('fecha_fin').value = fechaFin;
+
+    btnSubmit.textContent = 'Guardar Cambios';
+    btnCancelar.style.display = 'inline-block';
+
+    formulario.scrollIntoView({ behavior: 'smooth' });
+
+}
+
+function cancelarEdicion() {
+
+    formulario.reset();
+    document.getElementById('sprint_id_editar').value = '';
+
+    btnSubmit.textContent = 'Crear Sprint';
+    btnCancelar.style.display = 'none';
+
+}
+
 
 formulario.addEventListener(
     'submit',
@@ -84,46 +112,35 @@ formulario.addEventListener(
         }
 
         const data = {
-
-            nombre:
-                document.getElementById('nombre').value,
-
+            nombre: document.getElementById('nombre').value,
             fecha_inicio: fechaInicio,
-
             fecha_fin: fechaFin
-
         };
+
+        const idEditar = document.getElementById('sprint_id_editar').value;
+        const esEdicion = idEditar !== '';
+        const metodo = esEdicion ? 'PUT' : 'POST';
+        const endpoint = esEdicion ? `${URL}/${idEditar}` : URL;
 
         try {
 
-            const respuesta =
-                await fetch(URL, {
-
-                    method: 'POST',
-
-                    headers: {
-
-                        'Content-Type':
-                            'application/json'
-
-                    },
-
-                    body: JSON.stringify(data)
-
-                });
+            const respuesta = await fetch(endpoint, {
+                method: metodo,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
 
             if (respuesta.ok) {
-
-                formulario.reset();
-
+                alert(esEdicion ? 'Sprint actualizado.' : 'Sprint creado.');
+                cancelarEdicion();
                 cargarSprints();
-
+            } else {
+                alert('Error al guardar el sprint.');
             }
 
         } catch (error) {
-
             console.error(error);
-
+            alert('No se pudo conectar con el servidor.');
         }
 
     }
@@ -150,16 +167,15 @@ async function eliminarSprint(id) {
             });
 
         if (respuesta.ok) {
-
+            alert('Sprint eliminado.');
             cargarSprints();
-
+        } else {
+            alert('Error al eliminar el sprint.');
         }
-
-    } catch (error) {
-
-        console.error(error);
-
-    }
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo conectar con el servidor.');
+        }
 
 }
 

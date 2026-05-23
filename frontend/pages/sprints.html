@@ -17,7 +17,7 @@
 
     <nav class="navbar">
 
-        <h2>Gestor de Historias</h2>
+    <h2>Gestor de Historias</h2>
 
         <div class="nav-links">
 
@@ -68,10 +68,14 @@
                 required
             >
 
-            <button type="submit">
+            <input type="hidden" id="sprint_id_editar">
 
+            <button type="submit" id="btn-submit">
                 Crear Sprint
+            </button>
 
+            <button type="button" id="btn-cancelar" onclick="cancelarEdicion()" style="display:none;">
+                Cancelar
             </button>
 
         </form>
