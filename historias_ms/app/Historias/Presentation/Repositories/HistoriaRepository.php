@@ -116,4 +116,60 @@ class HistoriaRepository
     return $statement->execute();
     }
 
+   public function obtenerReporteGeneral(): array
+{
+    $sql = "
+        SELECT estado, COUNT(*) AS cantidad
+        FROM historias
+        GROUP BY estado
+    ";
+
+    $statement = $this->connection->prepare($sql);
+
+    $statement->execute();
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+public function obtenerReporteResponsables(): array
+{
+    $sql = "
+        SELECT
+            responsable,
+
+            SUM(
+                CASE
+                    WHEN estado = 'nueva'
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS nuevas,
+
+            SUM(
+                CASE
+                    WHEN estado = 'finalizada'
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS finalizadas,
+
+            SUM(
+                CASE
+                    WHEN estado = 'impedimento'
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS impedimentos
+
+        FROM historias
+
+        GROUP BY responsable
+    ";
+
+    $statement = $this->connection->prepare($sql);
+
+    $statement->execute();
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

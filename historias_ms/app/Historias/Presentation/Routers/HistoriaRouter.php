@@ -16,4 +16,15 @@ return function ($app) {
     $app->put('/historias/{id}', [$controller, 'update']);
 
     $app->delete('/historias/{id}', [$controller, 'destroy']);
+
+    $app->get(
+    '/historias/reporte/general',
+    [$controller, 'reporteGeneral']
+);
+
+$app->get(
+    '/historias/reporte/responsables',
+    [$controller, 'reporteResponsables']
+);
+
 };
