@@ -1,16 +1,47 @@
 const URL_HISTORIAS = 'http://localhost:8001/historias';
 
-async function cargarReporte() {
+async function cargarSprintsEnFiltro() {
+
     try {
+
+        const respuesta = await fetch('http://localhost:8000/sprints');
+        const sprints = await respuesta.json();
+        const select = document.getElementById('filtro-sprint');
+
+        select.innerHTML = '<option value="">-- Todos los Sprints --</option>';
+
+        sprints.forEach(sprint => {
+            select.innerHTML += `<option value="${sprint.id}">${sprint.nombre}</option>`;
+        });
+
+    } catch (error) {
+        console.error(error);
+        alert('Error al cargar los sprints.');
+    }
+
+}
+
+async function cargarReporte() {
+
+    try {
+
         const respuesta = await fetch(URL_HISTORIAS);
-        const historias = await respuesta.json();
+        const todasHistorias = await respuesta.json();
+
+        const filtro = document.getElementById('filtro-sprint').value;
+
+        const historias = filtro
+            ? todasHistorias.filter(h => h.sprint_id == filtro)
+            : todasHistorias;
 
         mostrarReporteGeneral(historias);
         mostrarReporteResponsables(historias);
 
     } catch (error) {
         console.error(error);
+        alert('Error al cargar el reporte.');
     }
+
 }
 
 function mostrarReporteGeneral(historias) {
@@ -60,4 +91,5 @@ function mostrarReporteResponsables(historias) {
     });
 }
 
+cargarSprintsEnFiltro();
 cargarReporte();
